@@ -160,7 +160,7 @@ class ORPO(object):
             optim=self.args.optim,
             warmup_steps=self.args.warmup_steps,
             gradient_accumulation_steps=self.args.gradient_accumulation_steps,
-            gradient_checkpointing=False, #True, #SKC: JetMOE apparently doesnt support this
+            gradient_checkpointing=True, #True, #SKC: JetMOE apparently doesnt support this
             gradient_checkpointing_kwargs={'use_reentrant': False if self.args.enable_lora else True},
             load_best_model_at_end=self.is_test,
             do_train=True,

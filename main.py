@@ -50,6 +50,7 @@ class ORPO(object):
                 lora_alpha=self.args.lora_alpha,
                 lora_dropout=self.args.lora_dropout,
                 r=self.args.lora_rank,
+                target_modules=["layer", "kv_proj"],  # SKC: looks like this gets the routed attn output + kv but also the output layer of the MLP MoE
                 task_type="CAUSAL_LM",
             )
 
@@ -159,7 +160,7 @@ class ORPO(object):
             optim=self.args.optim,
             warmup_steps=self.args.warmup_steps,
             gradient_accumulation_steps=self.args.gradient_accumulation_steps,
-            gradient_checkpointing=True, 
+            gradient_checkpointing=False, #True, #SKC: JetMOE apparently doesnt support this
             gradient_checkpointing_kwargs={'use_reentrant': False if self.args.enable_lora else True},
             load_best_model_at_end=self.is_test,
             do_train=True,
